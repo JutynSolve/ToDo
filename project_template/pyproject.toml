@@ -8,6 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.13"
 pytest = "^8.3.4"
+pytest-cov = "6.0.0"
 
 
 [build-system]
@@ -17,7 +18,14 @@ build-backend = "poetry.core.masonry.api"
 # pyproject.toml
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+addopts = [
+    "-ra -q",
+   "--cov=.",
+   "--cov-config=.coveragerc",
+   "--cov-report",
+   "term-missing:skip-covered",
+   "--cov-fail-under=80"
+]
 testpaths = [
     "tests",
     "integration",
@@ -25,4 +33,10 @@ testpaths = [
 markers = [
     "slow: mark test as slow.",
     "smoke: business core tests",
+]
+
+[tool.coverage.run]
+omit = [
+    "*/tests/*.py",
+    "conftest/*"
 ]
